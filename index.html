@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NiSalama – It's Safe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="css/ar.css" />
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav__logo">
+      <span class="nav__logo-icon">🌿</span>
+      <span class="nav__logo-text">NiSalama</span>
+    </div>
+    <ul class="nav__links">
+      <li><a href="pages/directory.html">Find a Professional</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="pages/login.html" class="btn btn--outline">Login</a></li>
+      <li><a href="pages/register.html" class="btn btn--primary">Register</a></li>
+    </ul>
+    <button class="nav__lang" id="langToggle" onclick="toggleLang()">🌐 SW</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero__bg-circles">
+      <div class="circle circle--1"></div>
+      <div class="circle circle--2"></div>
+      <div class="circle circle--3"></div>
+    </div>
+    <div class="hero__content">
+      <span class="hero__tag" data-i18n="tagline">Mental Health • Tanzania</span>
+      <h1 class="hero__title" data-i18n="hero_title">
+        Your Mind<br/>Deserves<br/><em>Care.</em>
+      </h1>
+      <p class="hero__subtitle" data-i18n="hero_sub">
+        Connect with verified mental health professionals across Tanzania — privately, safely, and affordably.
+      </p>
+      <div class="hero__search">
+        <select class="search__select" id="specialtyFilter">
+          <option value="">Specialty</option>
+          <option value="psychologist">Clinical Psychologist</option>
+          <option value="counselor">Mental Health Counselor</option>
+          <option value="psychiatrist">Psychiatrist</option>
+          <option value="therapist">Therapist</option>
+        </select>
+        <select class="search__select" id="regionFilter">
+          <option value="">Region</option>
+          <option value="dar">Dar es Salaam</option>
+          <option value="dodoma">Dodoma</option>
+          <option value="arusha">Arusha</option>
+          <option value="mwanza">Mwanza</option>
+          <option value="zanzibar">Zanzibar</option>
+        </select>
+        <button class="btn btn--primary" onclick="searchProfessionals()">
+          🔍 <span data-i18n="search_btn">Search</span>
+        </button>
+      </div>
+      <a href="pages/directory.html" class="hero__guest" data-i18n="guest_link">Continue as Guest →</a>
+    </div>
+    <button class="crisis-btn" id="crisisBtn" onclick="openCrisisModal()">
+      <span class="crisis-btn__pulse"></span>
+      <span class="crisis-btn__icon">🆘</span>
+      <span data-i18n="crisis_btn">I Need Help Now</span>
+    </button>
+
+    <!-- AR RELAX BUTTON (landing) -->
+    <button class="ar-relax-btn" id="arBtn" onclick="openARRelax()" style="position:fixed;bottom:28px;right:220px;z-index:200;">
+      <span class="ar-relax-btn__pulse"></span>
+      <span class="ar-relax-btn__icon">🥽</span>
+      <span>AR Relax</span>
+    </button>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><span class="stat__num" data-target="120">0</span><span class="stat__label">Verified Professionals</span></div>
+    <div class="stat"><span class="stat__num" data-target="15">0</span><span class="stat__label">Regions Covered</span></div>
+    <div class="stat"><span class="stat__num" data-target="3400">0</span><span class="stat__label">People Helped</span></div>
+  </section>
+
+  <section class="how" id="about">
+    <h2 class="section-title">How NiSalama Works</h2>
+    <div class="how__steps">
+      <div class="how__step"><div class="step__icon">🔍</div><h3>Search</h3><p>Browse verified mental health professionals by specialty and region across Tanzania.</p></div>
+      <div class="how__step"><div class="step__icon">📅</div><h3>Book</h3><p>Schedule an online or in-person consultation at a time that works for you.</p></div>
+      <div class="how__step"><div class="step__icon">💬</div><h3>Connect</h3><p>Meet your counselor securely and begin your journey toward better mental health.</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__logo">🌿 NiSalama</div>
+    <p>© 2026 NiSalama. Designed by Sylivester yakobo. Built with idleTech.</p>
+    <p style="margin-top:6px;font-size:0.75rem;opacity:0.5;">Emergency: 112 &nbsp;|&nbsp; Red Cross: +255 684 289 889</p>
+  </footer>
+
+  <div class="modal-overlay" id="crisisOverlay" onclick="closeCrisisModal(event)">
+    <div class="modal crisis-modal">
+      <button class="modal__close" onclick="closeCrisisModal()">✕</button>
+      <div class="crisis-modal__header">
+        <span class="crisis-modal__icon">💚</span>
+        <h2>You're Not Alone</h2>
+        <p>Our AI first-responder is here. Tell us how you're feeling.</p>
+      </div>
+      <div class="chat" id="chatBox">
+        <div class="chat__msg chat__msg--bot">Habari! I'm here with you. Can you tell me what's going on right now? How are you feeling?</div>
+      </div>
+      <div class="chat__input-row">
+        <input type="text" id="chatInput" class="chat__input" placeholder="Type here..." onkeydown="if(event.key==='Enter') sendCrisisMsg()" />
+        <button class="btn btn--primary" onclick="sendCrisisMsg()">Send</button>
+      </div>
+      <div class="crisis-modal__emergency">
+        <strong>Emergency Contacts:</strong> Police: <a href="tel:112">112</a> &nbsp;|&nbsp; Red Cross: <a href="tel:+255684289889">+255 684 289 889</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- AR RELAXATION OVERLAY (landing) -->
+  <div class="ar-overlay" id="arOverlay">
+    <div class="ar-container" id="arContainer">
+      <canvas id="arCanvas"></canvas>
+    </div>
+    <div class="ar-status" id="arStatus">📷 Starting camera…</div>
+    <div class="ar-hud-top">
+      <div class="ar-hud-logo">🌿 NiSalama <span style="font-size:0.75rem;opacity:0.7;">AR Mode</span></div>
+      <div class="ar-hud-mode">● AR Active</div>
+      <button class="ar-close-btn" onclick="closeARRelax()">✕</button>
+    </div>
+    <div class="ar-sound-bar">
+      <span class="ar-sound-option active" onclick="selectSound(this,'none')">🔇 Silence</span>
+      <span class="ar-sound-option" onclick="selectSound(this,'rain')">🌧 Rain</span>
+      <span class="ar-sound-option" onclick="selectSound(this,'ocean')">🌊 Ocean</span>
+      <span class="ar-sound-option" onclick="selectSound(this,'forest')">🌳 Forest</span>
+    </div>
+    <div class="ar-side-controls">
+      <button class="ar-side-btn" onclick="if(particles) particles.visible=!particles.visible">✨<span>FX</span></button>
+      <button class="ar-side-btn" onclick="floatingLeaves.forEach(l=>l.visible=!l.visible)">🍃<span>Leaf</span></button>
+    </div>
+    <div id="arAmbientLeaves"></div>
+    <div class="ar-breath-panel">
+      <div class="ar-breath-ring" id="arBreathRing">
+        <div style="position:relative;text-align:center;">
+          <div class="ar-breath-timer" id="arBreathTimer">4</div>
+          <div class="ar-breath-label" id="arBreathLabel">🌬️ Breathe In</div>
+        </div>
+      </div>
+      <div class="ar-breath-text">Follow the ring — breathe with NiSalama 🌿</div>
+      <div class="ar-progress-wrap">
+        <div class="ar-progress-bar" id="arBreathProgress"></div>
+      </div>
+      <div class="ar-cycle-row">
+        <div class="ar-cycle-dots" id="arCycleDots">
+          <div class="ar-cycle-dot" id="dot-1"></div>
+          <div class="ar-cycle-dot" id="dot-2"></div>
+          <div class="ar-cycle-dot" id="dot-3"></div>
+          <div class="ar-cycle-dot" id="dot-4"></div>
+          <div class="ar-cycle-dot" id="dot-5"></div>
+        </div>
+        <div class="ar-cycle-label" id="arBreathCount">0 / 5 cycles</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/landing.js"></script>
+  <script src="js/crisis.js"></script>
+  <script src="js/ar-relax.js"></script>
+  <script>
+    var audioCtx = null, soundNodes = [];
+    function stopSound(){ soundNodes.forEach(n=>{try{n.stop();}catch(_){}});soundNodes=[];}
+    function selectSound(el,type){
+      document.querySelectorAll('.ar-sound-option').forEach(o=>o.classList.remove('active'));
+      el.classList.add('active'); stopSound(); if(type==='none') return;
+      audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
+      if(audioCtx.state==='suspended') audioCtx.resume();
+      const cfg={rain:[{f:180,t:'sine',g:0.04},{f:400,t:'sawtooth',g:0.008}],ocean:[{f:80,t:'sine',g:0.05},{f:160,t:'sine',g:0.03}],forest:[{f:432,t:'sine',g:0.03},{f:528,t:'sine',g:0.025}]};
+      (cfg[type]||[]).forEach(c=>{const o=audioCtx.createOscillator(),gn=audioCtx.createGain();o.type=c.t;o.frequency.value=c.f;gn.gain.value=c.g;o.connect(gn);gn.connect(audioCtx.destination);o.start();soundNodes.push(o);});
+    }
+    // Update dots
+    setInterval(()=>{
+      for(let i=1;i<=5;i++){const d=document.getElementById('dot-'+i);if(d) d.classList.toggle('done',i<=breathCount);}
+      const c=document.getElementById('arBreathCount');if(c) c.textContent=breathCount+' / 5 cycles';
+    },500);
+    const _oc=window.closeARRelax;
+    window.closeARRelax=function(){stopSound();if(_oc)_oc();};
+  </script>
+</body>
+</html>
